@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import '../contacts.json';
 
+
 const contactSchema = new mongoose.Schema({
   name: { type: String, required: true },
   phoneNumber: { type: String, required: true },
