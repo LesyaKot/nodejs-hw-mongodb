@@ -47,7 +47,7 @@ const setupServer = () => {
       const dataContacts = fs.readFileSync('contacts.json');
       const contacts = JSON.parse(dataContacts);
       const contact = contacts.find(
-        (contact) => contact._id['$oid'] === contactId,
+        (contact) => contact._id === contactId,
       );
       if (contact) {
         res.status(200).json({
