@@ -1,6 +1,5 @@
 import { Contact } from '../db/Contact.js';
 
-
 export const getAllContacts = async () => {
   try {
     const contacts = await Contact.find();
@@ -9,7 +8,6 @@ export const getAllContacts = async () => {
     throw new Error('No contacts: ' + error.message);
   }
 };
-
 
 export const getContactById = async (contactId) => {
   try {
