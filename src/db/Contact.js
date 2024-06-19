@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 
-
 const contactSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
@@ -14,7 +13,7 @@ const contactSchema = new mongoose.Schema(
       default: 'personal',
     },
   },
-  { timestamps: true }
+  { timestamps: true, versionKey: false },
 );
 
 export const Contact = mongoose.model('Contact', contactSchema);

@@ -1,5 +1,6 @@
 import { Contact } from '../db/Contact.js';
 
+
 export const getAllContacts = async () => {
   try {
     const contacts = await Contact.find();
@@ -8,6 +9,7 @@ export const getAllContacts = async () => {
     throw new Error('No contacts: ' + error.message);
   }
 };
+
 
 export const getContactById = async (contactId) => {
   try {
@@ -18,6 +20,7 @@ export const getContactById = async (contactId) => {
   }
 };
 
+
 export const createContact = async (payload) => {
   try {
     const contact = await Contact.create(payload);
@@ -26,6 +29,7 @@ export const createContact = async (payload) => {
     throw new Error("Can't create contact" + error.message);
   }
 };
+
 
 export const updateContact = async (contactId, payload, options = {}) => {
   const rawResult = await Contact.findOneAndUpdate(
@@ -45,6 +49,7 @@ export const updateContact = async (contactId, payload, options = {}) => {
     isNew: Boolean(rawResult?.lastErrorObject?.upserted),
   };
 };
+
 
 export const deleteContact = async (contactId) => {
   const contact = await Contact.findOneAndDelete({
