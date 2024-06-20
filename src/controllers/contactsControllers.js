@@ -7,7 +7,8 @@ import {
 } from '../services/contacts.js';
 
 import createHttpError from 'http-errors';
-import mongoose from 'mongoose';
+
+import isValidId  from '../middlewares/isValidId.js';
 
 
 // all contacts
@@ -26,9 +27,6 @@ export const getContactsController = async (req, res) => {
 export const getContactByIdController = async (req, res, next) => {
   const { contactId } = req.params;
 
-  if (!mongoose.Types.ObjectId.isValid(contactId)) {
-    return next(createHttpError(404, 'Contact not found'));
-  }
   try {
     const contact = await getContactById(contactId);
 
@@ -45,7 +43,6 @@ export const getContactByIdController = async (req, res, next) => {
     next(error);
   }
 };
-
 
 // post
 export const createContactController = async (req, res, next) => {
