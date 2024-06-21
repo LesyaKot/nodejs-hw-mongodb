@@ -8,8 +8,6 @@ import {
 
 import createHttpError from 'http-errors';
 
-import isValidId  from '../middlewares/isValidId.js';
-
 
 // all contacts
 export const getContactsController = async (req, res) => {
