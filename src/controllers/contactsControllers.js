@@ -8,10 +8,18 @@ import {
 
 import createHttpError from 'http-errors';
 
+import { paginationParams } from '../utils/parsePaginationParams.js';
+
 
 // all contacts
 export const getContactsController = async (req, res) => {
-  const contacts = await getAllContacts();
+
+  const {page, perPage} = paginationParams(req.query);
+
+  const contacts = await getAllContacts({
+    page,
+    perPage,
+  });
 
   res.json({
     status: 200,
