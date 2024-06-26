@@ -1,12 +1,16 @@
 import Joi from 'joi';
 
+
 export const createContactsSchema = Joi.object({
   name: Joi.string().min(3).max(20).required(),
-  phoneNumber: Joi.string().pattern(/^\+\d{10,16}$/).required(),
+  phoneNumber: Joi.string().pattern(/^\+\d{12}$/).required().messages({
+    'string.pattern.base': 'Phone number must be in the format +380... (12 digits after +)'
+  }),
   email: Joi.string().email(),
   isFavourite: Joi.boolean().default(false),
   contactType: Joi.string().valid('work', 'home', 'personal').default('personal'),
 });
+
 
 export const updateContactsSchema = Joi.object({
   name: Joi.string().min(3).max(20),
