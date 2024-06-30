@@ -20,6 +20,12 @@ export const User = model('User', userSchema);
 // new user
 
 // {
+//   "name": "Serg Sternenko",
+//   "email": "rusoris@ua.com",
+//   "password": "smtng"
+// }
+
+// {
 //   "status": 201,
 //   "message": "Successfully registered a user!",
 //   "data": {
