@@ -4,7 +4,9 @@ import { randomBytes } from 'crypto';
 import { FIFTEEN_MINUTES, THIRTY_DAYS } from '../constants/index.js';
 import { Session } from '../db/models/Session.js';
 import { User } from '../db/models/User.js';
-
+import jwt from 'jsonwebtoken';
+import { SMTP } from '../constants/index.js';
+import { sendEmail } from '../utils/sendMail.js';
 
 
 export const registerUser = async (payload) => {
@@ -44,8 +46,6 @@ export const loginUser = async (payload) => {
 export const logoutUser = async (sessionId) => {
   await Session.deleteOne({ _id: sessionId });
 };
-
-
 const createSession = () => {
   const accessToken = randomBytes(30).toString('base64');
   const refreshToken = randomBytes(30).toString('base64');
@@ -59,13 +59,11 @@ const createSession = () => {
 
 
 export const refreshUserSession = async ({ sessionId, refreshToken }) => {
-  
   const session = await Session.findOne({ _id: sessionId, refreshToken });
 
   if (!session) {
     throw createHttpError(401, 'Session not found');
   }
-
   const isSessionTokenExpired =
     new Date() > new Date(session.refreshTokenValidUntil);
   if (isSessionTokenExpired) {
@@ -73,7 +71,34 @@ export const refreshUserSession = async ({ sessionId, refreshToken }) => {
   }
 
   const newSession = createSession();
-  await Session.deleteOne({_id: sessionId, refreshToken});
+  await Session.deleteOne({ _id: sessionId, refreshToken });
 
-  return await Session.create({userId: session.userId, ...newSession});
+  return await Session.create({ userId: session.userId, ...newSession });
+};
+
+
+export const requestResetToken = async (email) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw createHttpError(404, 'User not found');
+  }
+  const resetToken = jwt.sign(
+    {
+      sub: user._id,
+      email,
+    },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: '5m',
+    },
+  );
+
+  const resetUrl = `${process.env.APP_DOMAIN}/reset-password?token=${resetToken}`;
+
+  await sendEmail({
+    from: process.env[SMTP.FROM],
+    to: email,
+    subject: 'Reset your password',
+    html: `<p>Click <a href="${resetUrl}">here</a> to reset your password!</p>`,
+  });
 };
