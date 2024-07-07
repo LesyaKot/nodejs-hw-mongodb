@@ -3,6 +3,7 @@ import { loginUser } from '../services/auth.js';
 import { ONE_DAY } from '../constants/index.js';
 import { refreshUserSession } from '../services/auth.js';
 import { requestResetToken } from '../services/auth.js';
+import { resetPassword } from '../services/auth.js';
 
 
 export const registerUserController = async (req, res, next) => {
@@ -89,15 +90,37 @@ export const refreshUserSessionController = async (req, res) => {
 
 
 export const requestResetEmailController = async (req, res) => {
-
-  await requestResetToken(req.body.email);
-  res.json({
-    status: 200,
-    message: 'Reset password email was successfully sent!',
-    data: {},
-  });
+  try {
+    await requestResetToken(req.body.email);
+    res.json({
+      status: 200,
+      message: 'Reset password email was successfully sent!',
+      data: {},
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      message: 'Something went wrong',
+      data: error.message,
+    });
+  }
 };
 
-
+export const resetPasswordController = async (req, res) => {
+  try {
+    await resetPassword(req.body);
+    res.json({
+      message: 'Password was successfully reset!',
+      status: 200,
+      data: {},
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 500,
+      message: 'Something went wrong',
+      data: error.message,
+    });
+  }
+};
 
 
