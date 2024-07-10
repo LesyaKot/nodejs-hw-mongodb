@@ -9,6 +9,8 @@ import {
   updateContact,
   deleteContact,
 } from '../services/contacts.js';
+import { saveFileToCloudinary } from '../utils/saveFileToCloudinary.js';
+
 
 
 // all contacts
@@ -136,5 +138,51 @@ export const deleteContactController = async (req, res, next) => {
     res.status(204).send();
   } catch (error) {
     next(error);
+  }
+};
+
+// CLOUDINARY
+export const patchStudentController = async (req, res, next) => {
+  const { contactId } = req.params;
+  const photo = req.file;
+
+  let photoUrl;
+
+  if (photo) {
+    if (process.env.ENABLE_CLOUDINARY === 'true') {
+      try {
+        photoUrl = await saveFileToCloudinary(photo);
+      } catch (error) {
+        next(createHttpError(500, 'Failed to upload file to Cloudinary', error));
+        return;
+      }
+    } else {
+      try {
+        photoUrl = await saveFileToUploadDir(photo);
+      } catch (error) {
+        next(createHttpError(500, 'Failed to upload file to local directory', error));
+        return;
+      }
+    }
+  }
+
+  try {
+    const result = await updateContact(contactId, {
+      ...req.body,
+      photo: photoUrl,
+    });
+
+    if (!result) {
+      next(createHttpError(404, 'Contact not found'));
+      return;
+    }
+
+    res.json({
+      status: 200,
+      message: 'Successfully patched a contact!',
+      data: result.contact,
+    });
+  } catch (error) {
+    next(createHttpError(500, 'Failed to update contact', error));
   }
 };

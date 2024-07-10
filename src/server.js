@@ -7,6 +7,7 @@ import { notFoundHandler } from './middlewares/notFoundHandler.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import cookieParser from 'cookie-parser';
 
+
 dotenv.config();
 
 const setupServer = () => {
@@ -27,8 +28,8 @@ const setupServer = () => {
   app.use('*', notFoundHandler);
   app.use(errorHandler);
 
-  
-  app.listen(PORT, () => {
+
+   app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
   });
 };

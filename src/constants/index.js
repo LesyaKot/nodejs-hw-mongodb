@@ -3,6 +3,8 @@ export const ONE_DAY = 24 * 60 * 60 * 1000;
 export const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
 import path from 'node:path';
 
+import dotenv from 'dotenv';
+dotenv.config();
 
 export const SMTP = {
     SMTP_HOST: 'SMTP_HOST',
@@ -11,6 +13,15 @@ export const SMTP = {
     SMTP_PASSWORD: 'SMTP_PASSWORD',
     SMTP_FROM: 'SMTP_FROM',
   };
+
+
+  export const CLOUDINARY = {
+    CLOUD_NAME: process.env.CLOUD_NAME,
+    API_KEY: process.env.API_KEY,
+    API_SECRET: process.env.API_SECRET,
+  };
+
+
 
   export const TEMPLATES_DIR = path.join(process.cwd(), 'src', 'templates');
 
