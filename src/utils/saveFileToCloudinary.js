@@ -1,6 +1,10 @@
 import  cloudinary  from 'cloudinary';
 import { CLOUDINARY } from '../constants/index.js';
 
+
+import dotenv from 'dotenv';
+dotenv.config();
+
 cloudinary.config({
   secure: true,
   cloud_name: process.env[CLOUDINARY.CLOUD_NAME],

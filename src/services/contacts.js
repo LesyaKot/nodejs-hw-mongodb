@@ -53,9 +53,9 @@ export const getContactById = async (contactId, userId) => {
 
 
 // post
-export const createContact = async ({name, phoneNumber, email, isFavourite, contactType, userId }) => {
+export const createContact = async ({name, phoneNumber, email, isFavourite, contactType, userId, photo }) => {
   try {
-    const contact = await Contact.create({name, phoneNumber, email, isFavourite, contactType, userId });
+    const contact = await Contact.create({name, phoneNumber, email, isFavourite, contactType, userId, photo });
     return contact;
   } catch (error) {
     throw new Error("Can't create contact" + error.message);
@@ -64,13 +64,31 @@ export const createContact = async ({name, phoneNumber, email, isFavourite, cont
 
 
 // patch
+// export const updateContact = async (contactId, userId, payload, options, photo = {}) => {
+//   const rawResult = await Contact.findOneAndUpdate(
+//     { _id: contactId, userId },
+//     payload,
+//     {
+//       new: true,
+//       includeResultMetadata: true,
+//       ...options,
+//     },
+//     photo,
+//   );
+
+//   if (!rawResult) return null;
+
+//   return {
+//     contact: rawResult,
+//     isNew: Boolean(rawResult?.lastErrorObject?.upserted),
+//   };
+// };
 export const updateContact = async (contactId, userId, payload, options = {}) => {
   const rawResult = await Contact.findOneAndUpdate(
     { _id: contactId, userId },
     payload,
     {
       new: true,
-      includeResultMetadata: true,
       ...options,
     },
   );
@@ -82,7 +100,6 @@ export const updateContact = async (contactId, userId, payload, options = {}) =>
     isNew: Boolean(rawResult?.lastErrorObject?.upserted),
   };
 };
-
 
 // delete
 export const deleteContact = async (contactId, userId) => {

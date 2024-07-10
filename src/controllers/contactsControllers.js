@@ -77,6 +77,16 @@ export const createContactController = async (req, res, next) => {
     return res.status(400).json({ error: 'PhoneNumber is required' });
   }
 
+  let photoUrl = null;
+
+    if (req.file) {
+    try {
+      photoUrl = await saveFileToCloudinary(req.file.path);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
   try {
     const newContact = await createContact({
       name,
@@ -85,6 +95,7 @@ export const createContactController = async (req, res, next) => {
       isFavourite,
       contactType,
       userId,
+      photo: photoUrl,
     });
 
     res.status(201).json({
@@ -96,6 +107,44 @@ export const createContactController = async (req, res, next) => {
     next(error);
   }
 };
+
+
+// export const createContactController = async (req, res, next) => {
+//   const { name, phoneNumber, email, isFavourite, contactType, file } = req.body;
+//   const userId = req.user._id;
+//   let photoUrl = null;
+//   if (!name) {
+//     return res.status(400).json({ error: 'Name is required' });
+//   }
+
+//   if (!phoneNumber) {
+//     return res.status(400).json({ error: 'PhoneNumber is required' });
+//   }
+//   if (file) {
+//     photoUrl = await saveFileToCloudinary(file);
+//   }
+//   try {
+//     const newContact = await createContact({
+//       name,
+//       phoneNumber,
+//       email,
+//       isFavourite,
+//       contactType,
+//       userId,
+//       photo: photoUrl
+
+//       });
+
+//     res.status(201).json({
+//       status: 201,
+//       message: 'Successfully created a contact!',
+//       data: newContact,
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
 
 
 // patch
@@ -140,6 +189,7 @@ export const deleteContactController = async (req, res, next) => {
     next(error);
   }
 };
+
 
 // CLOUDINARY
 export const patchStudentController = async (req, res, next) => {

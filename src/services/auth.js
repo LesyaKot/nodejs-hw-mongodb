@@ -7,9 +7,9 @@ import { User } from '../db/models/User.js';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../utils/sendMail.js';
 import handlebars from 'handlebars';
-import path from 'node:path';
-import fs from 'node:fs/promises';
+import dotenv from 'dotenv';
 
+dotenv.config();
 
 export const registerUser = async (payload) => {
   const isUser = await User.findOne({ email: payload.email });
@@ -113,7 +113,7 @@ export const requestResetToken = async (email) => {
 
     return resetToken;
   } catch (error) {
-    throw createHttpError(500, 'Failed to send the email, please try again later.');
+    throw createHttpError(500, 'Failed to send the email, please try again later.', error);
   }
 };
 
