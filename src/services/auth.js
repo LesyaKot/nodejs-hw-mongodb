@@ -7,10 +7,7 @@ import { User } from '../db/models/User.js';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../utils/sendMail.js';
 import handlebars from 'handlebars';
-import { TEMPLATES_DIR } from '../constants/index.js';
 import dotenv from 'dotenv';
-import path from 'node:path';
-import fs from 'node:fs/promises';
 
 dotenv.config();
 

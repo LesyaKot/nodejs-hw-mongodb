@@ -6,7 +6,6 @@ const userSchema = new Schema(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
   },
-  // { verify: {type: Boolean, required: true, default: false}},
   { timestamps: true, versionKey: false },
 );
 
@@ -17,6 +16,8 @@ userSchema.methods.toJSON = function () {
 };
 
 export const User = model('User', userSchema);
+
+
 
 
 // new user
