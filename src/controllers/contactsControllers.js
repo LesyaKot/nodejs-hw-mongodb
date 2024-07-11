@@ -94,15 +94,19 @@ export const createContactController = async (req, res, next) => {
       photo: photoUrl,
     });
 
+    const contactObject = newContact.toObject();
+    delete contactObject.__v;
+
     res.status(201).json({
       status: 201,
       message: 'Successfully created a contact!',
-      data: newContact,
+      data: contactObject,
     });
   } catch (error) {
     next(error);
   }
 };
+
 
 // patch
 export const patchContactController = async (req, res, next) => {
