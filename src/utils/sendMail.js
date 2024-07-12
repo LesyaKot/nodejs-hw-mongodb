@@ -21,5 +21,3 @@ export const sendEmail = async (options) => {
     );
   }
 };
-
-
