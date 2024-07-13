@@ -4,6 +4,7 @@ import { ONE_DAY } from '../constants/index.js';
 import { refreshUserSession } from '../services/auth.js';
 import { requestResetToken } from '../services/auth.js';
 import { resetPassword } from '../services/auth.js';
+import { generateAuthUrl } from '../utils/googleOAuth2.js';
 
 
 export const registerUserController = async (req, res, next) => {
@@ -122,6 +123,17 @@ export const resetPasswordController = async (req, res) => {
       data: error.message,
     });
   }
+};
+
+export const getGoogleOAuthUrlController = async (req, res) => {
+  const url = generateAuthUrl();
+  res.json({
+    status: 200,
+    message: 'Successfully get Google OAuth url!',
+    data: {
+      url,
+    },
+  });
 };
 
 
