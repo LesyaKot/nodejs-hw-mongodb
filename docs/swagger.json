@@ -36,15 +36,15 @@
           "$ref": "../src/swagger/paths/contacts/post.yaml"
         }
       },
-      "/contacts/{id}": {
+      "/contacts/{contactId}": {
         "get": {
-          "$ref": "../src/swagger/paths/contacts/{id}/get.yaml"
+          "$ref": "../src/swagger/paths/contacts/{contactId}/get.yaml"
         },
         "patch": {
-          "$ref": "../src/swagger/paths/contacts/{id}/patch.yaml"
+          "$ref": "../src/swagger/paths/contacts/{contactId}/patch.yaml"
         },
         "delete": {
-          "$ref": "../src/swagger/paths/contacts/{id}/delete.yaml"
+          "$ref": "../src/swagger/paths/contacts/{contactId}/delete.yaml"
         }
       }
     },
