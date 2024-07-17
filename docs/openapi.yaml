@@ -15,7 +15,6 @@ tags:
 servers:
   - url: http://localhost:3000
   - url: https://example.com/api/v1
-
 paths:
   /contacts/{contactId}:
     get:
@@ -29,7 +28,6 @@ paths:
       $ref: '../src/swagger/paths/contacts/get.yaml'
     post:
       $ref: '../src/swagger/paths/contacts/post.yaml'
-
 components:
   securitySchemes:
     bearerAuth:
